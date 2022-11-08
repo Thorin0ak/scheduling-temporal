@@ -1,6 +1,7 @@
 import { Connection, WorkflowClient } from '@temporalio/client';
 import { bookingWorkflow } from './workflows/workflows';
 import { nanoid } from 'nanoid';
+import {logger} from './utils/logger-config';
 
 async function run() {
   // Connect to the default Server location (localhost:7233)
@@ -23,13 +24,16 @@ async function run() {
     // in practice, use a meaningful business id, eg customerId or transactionId
     workflowId: 'workflow-' + nanoid(),
   });
-  console.log(`Started workflow ${handle.workflowId}`);
+  logger.info(`Started workflow ${handle.workflowId}`);
 
   // optional: wait for client result
-  console.log(await handle.result()); // Hello, Temporal!
+  logger.info(await handle.result()); // Hello, Temporal!
 }
 
 run().catch((err) => {
-  console.error(err);
+  // TODO: configure Winston with Temporal
+  // https://docs.temporal.io/typescript/logging#customizing-the-default-logger
+  // Runtime.install({ logger });
+  logger.error(err);
   process.exit(1);
 });

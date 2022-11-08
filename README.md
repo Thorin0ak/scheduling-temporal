@@ -16,3 +16,6 @@ The Workflow should return:
 ```bash
 Hello, Temporal!
 ```
+
+# TODO
+- [ ] add prettier config
